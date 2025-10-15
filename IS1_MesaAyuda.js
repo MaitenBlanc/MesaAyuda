@@ -106,7 +106,7 @@ app.post("/api/loginCliente", async (req, res) => {
   const { contacto, password } = req.body;
 
   console.log(
-    "loginCliente: contacto(" + contacto + ") password (" + password + ")"
+    "loginCliente: contacto(" + contacto + ")"
   );
 
   if (!password) {
@@ -265,8 +265,6 @@ app.post("/api/addCliente", (req, res) => {
       contacto +
       ") nombre(" +
       nombre +
-      ") password(" +
-      password +
       ")"
   );
 
@@ -350,8 +348,6 @@ app.post("/api/updateCliente", (req, res) => {
       id +
       ") nombre(" +
       nombre +
-      ") password(" +
-      password +
       ") activo(" +
       activo +
       ") registrado(" +

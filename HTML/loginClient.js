@@ -15,6 +15,11 @@ formE1.addEventListener("submit", (event) => {
         Realiza validaciones en los datos del formulario antes de procesar
         */
 
+  // SACAR SI NO VA
+  document
+    .querySelectorAll("#resultado1, #resultado2, #resultado3, #resultado4")
+    .forEach((el) => (el.textContent = ""));
+
   if (data.contacto == "" || data.password == "") {
     console.log("debe indicar usuario");
     document.getElementById("resultado1").style.color = "RED";
@@ -24,14 +29,13 @@ formE1.addEventListener("submit", (event) => {
     return;
   }
 
-  if (data.id == "pec") {
-    /*--Fix hecho por  Germán Lombardi IS1-2025 */
+  if (data.contacto == "pec") {
     console.log("pec no es bienvenido en éste sistema");
-    const m = "<li>El usuario <pec> no es bienvenido en éste sistema</li>";
+    const m = "<li>El usuario <pec> no es bienvenido en este sistema</li>";
     document.getElementById("resultado2").style.color = "RED";
     document.getElementById("resultado2").style.textAlign = "center";
     document.getElementById("resultado2").textContent =
-      "El usuario <pec> no es bienvenido en éste sistema";
+      "El usuario <pec> no es bienvenido en este sistema";
     return;
   }
   if (data.termscondition != "on") {
@@ -40,6 +44,22 @@ formE1.addEventListener("submit", (event) => {
     document.getElementById("resultado2").style.color = "RED";
     document.getElementById("resultado2").textContent =
       "Debe aceptar los T&C para poder usar el sistema";
+    return;
+  }
+  if (data.contacto == "") {
+    console.log("El usuario es incorrecto no se puede loggear");
+    document.getElementById("resultado3").style.textAlign = "center";
+    document.getElementById("resultado3").style.color = "RED";
+    document.getElementById("resultado3").textContent =
+      "El usuario es incorrecto, intente nuevamente";
+    return;
+  }
+  if (data.password == "") {
+    console.log("La password es incorrecta no se puede loggear");
+    document.getElementById("resultado4").style.textAlign = "center";
+    document.getElementById("resultado4").style.color = "RED";
+    document.getElementById("resultado4").textContent =
+      "La contraseña es incorrecta, intente nuevamente";
     return;
   }
 
@@ -141,7 +161,6 @@ formE1.addEventListener("submit", (event) => {
       );
       console.log("users.response=" + users.password);
       if (users.response == "OK") {
-        //<==Habilitar esto para dejar que el API REST verifique sin exponer la password
         console.log("La password es correcta");
         console.log(
           "nombre(" +
@@ -189,10 +208,9 @@ formE1.addEventListener("submit", (event) => {
           MODE;
       } else {
         console.log("La password no es correcta");
-        document.getElementById("resultado1").style.color =
-          "RED"; /*--Fix hecho por  Germán Lombardi IS1-2025 */
-        document.getElementById("resultado1").textContent =
-          "Error de login, intente nuevamente"; /*--Fix hecho por  Germán Lombardi IS1-2025 */
+        document.getElementById("resultado4").style.color = "RED";
+        document.getElementById("resultado4").textContent =
+          "Error de login, intente nuevamente";
       }
     });
 });
