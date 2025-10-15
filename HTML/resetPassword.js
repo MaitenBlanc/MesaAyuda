@@ -7,6 +7,7 @@ form.addEventListener("submit", async (e) => {
   const data = Object.fromEntries(new FormData(form));
 
   if (data.password !== data.password2) {
+    mensaje.style.color = "red";
     mensaje.textContent = "Las contraseñas no coinciden";
     return;
   }
@@ -27,13 +28,16 @@ form.addEventListener("submit", async (e) => {
 
     if (json.response === "OK") {
       mensaje.className = "exito";
+      mensaje.style.color = "green";
       mensaje.textContent = "Contraseña actualizada. Redirigiendo...";
       setTimeout(() => (window.location.href = "loginClient.html"), 1500);
     } else {
       mensaje.className = "mensaje";
+      mensaje.style.color = "red";
       mensaje.textContent = json.message || "Error al actualizar";
     }
   } catch (err) {
+    mensaje.style.color = "red";
     mensaje.textContent = "Error de red: " + err;
   }
 });

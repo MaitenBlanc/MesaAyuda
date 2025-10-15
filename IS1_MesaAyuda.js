@@ -257,9 +257,7 @@ Revisa si el contacto (e-mail) existe y en caso que no da de alta el cliente gen
   Se modificó la API para que use contacto en lugar de id a la hora de registrar un cliente
 */
 app.post("/api/addCliente", (req, res) => {
-  const { contacto } = req.body;
-  const { password } = req.body;
-  const { nombre } = req.body;
+  const { contacto, password, nombre } = req.body;
   console.log(
     "addCliente: contacto(" +
       contacto +
