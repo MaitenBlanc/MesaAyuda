@@ -9,14 +9,14 @@
  *----------------------------------------------------------------------------------------------------------------*/
 //AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1
 
-// import express from "express";
-// import crypto from "crypto";
+import express from "express";
+import crypto from "crypto";
 console.log("Comenzando servidor");
 
-const crypto = require("crypto");
+// const crypto = require("crypto");
 console.log("crypto Ok!");
 
-const express = require("express");
+// const express = require("express");
 console.log("express Ok!");
 
 const app = express();
@@ -24,27 +24,27 @@ console.log("express ready!");
 
 const PORT = 8080;
 
-// import cors from "cors";
+import cors from "cors";
 
-const cors = require("cors");
+// const cors = require("cors");
 console.log("cors ok!");
 
 app.use(cors());
 console.log("CORS ready!");
 
-// import AWS from "aws-sdk";
-var AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+// var AWS = require("aws-sdk");
 console.log("aws-sdk ready!");
 
 /*----
 Acquire critical security resources from an external file out of the path
 */
 
-const accessKeyId = require("./awsKeys/accessKeyId.js");
-const secretAccessKey = require("./awsKeys/secretAccessKey.js");
+// const accessKeyId = require("./awsKeys/accessKeyId.js");
+// const secretAccessKey = require("./awsKeys/secretAccessKey.js");
 
-// import accessKeyId from "../accessKeyId.js";
-// import secretAccessKey from "../secretAccessKey.js";
+import accessKeyId from "./awsKeys/accessKeyId.js";
+import secretAccessKey from "./awsKeys/secretAccessKey.js";
 
 let awsConfig = {
   region: "us-east-1",
@@ -296,7 +296,8 @@ app.post("/api/addCliente", (req, res) => {
       hoy = dd + "/" + mm + "/" + yyyy;
 
       const newCliente = {
-        id: contacto,
+        id: crypto.randomUUID(),
+        contacto: contacto,
         nombre: nombre,
         password: password,
         activo: true,

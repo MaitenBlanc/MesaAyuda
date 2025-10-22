@@ -15,7 +15,6 @@ formE1.addEventListener("submit", (event) => {
         Realiza validaciones en los datos del formulario antes de procesar
         */
 
-  // SACAR SI NO VA
   document
     .querySelectorAll("#resultado1, #resultado2, #resultado3, #resultado4")
     .forEach((el) => (el.textContent = ""));
