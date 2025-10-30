@@ -12,18 +12,21 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  // Obtiene los datos del form (password2 no es necesario para la API)
   const body = {
     contacto: data.contacto,
     password: data.password,
   };
 
   try {
+    // Llamado a la API
     const res = await fetch("http://localhost:8080/api/resetCliente", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
 
+    // Convierte la respuesta del servidor en un JSON
     const json = await res.json();
 
     if (json.response === "OK") {
@@ -38,6 +41,6 @@ form.addEventListener("submit", async (e) => {
     }
   } catch (err) {
     mensaje.style.color = "red";
-    mensaje.textContent = "Error de red: " + err;
+    mensaje.textContent = "DB access error: " + err;
   }
 });

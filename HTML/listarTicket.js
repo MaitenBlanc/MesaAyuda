@@ -117,6 +117,13 @@ fetch(`${APIREST_URL}`, options)
   })
   .then((ticket) => {
     console.log("ticket: ", ticket);
+    
+    if (!ticket.data || ticket.data.length === 0) {
+    console.log("no tiene tickets");
+    document.getElementById("app").innerHTML =
+      "<p style='text-align:center; color:red; font-weight:bold;'>Aún no se registró ningún ticket.</p>";
+    return;
+  }
 
     let f = false;
     let table = document.createElement("table");
@@ -166,9 +173,7 @@ fetch(`${APIREST_URL}`, options)
       HTMLResponse.appendChild(table);
     } else {
       console.log("no tiene tickets");
-      document.getElementById("mensajes").style.textAlign = "center";
-      document.getElementById("mensajes").style.color = "RED";
-      document.getElementById("mensajes").innerHTML =
-        "No hay tickets pendientes";
+      document.getElementById("app").innerHTML =
+        "<p style='text-align:center; color:red; font-weight:bold;'>Aún no se registró ningún ticket.</p>";
     }
   });

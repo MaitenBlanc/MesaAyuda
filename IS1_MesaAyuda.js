@@ -58,7 +58,7 @@ console.log("Servidor listo!");
 let docClient = new AWS.DynamoDB.DocumentClient();
 
 /*----
-   Application server in LISTEN mode
+  Application server in LISTEN mode
 */
 
 app.listen(PORT, () =>
@@ -100,7 +100,7 @@ app.get("/api/cliente", (req, res) => {
 /*
   CAMBIOS REALIZADOS
   Se modificó la API para que use contacto en lugar de id a la hora de acceder al sistema
-  Además se quitó la password a la respuesta JSON.
+  Además se quitó la password a la respuesta.
 */
 app.post("/api/loginCliente", async (req, res) => {
   const { contacto, password } = req.body;
@@ -164,7 +164,7 @@ app.post("/api/loginCliente", async (req, res) => {
       res
         .status(400)
         .send(
-          JSON.stringify({ response: "ERROR", message: "usuario incorrecto" })
+          JSON.stringify({ response: "ERROR", message: "Usuario incorrecto" })
         );
     }
   } catch (err) {
@@ -222,7 +222,8 @@ app.post("/api/getCliente/:id", (req, res) => {
 });
 
 /*---------
-Función para realizar el SCAN de un DB de cliente usando contacto como clave para la búsqueda (no es clave formal del DB)
+Función para realizar el SCAN de un DB de cliente usando contacto como clave para la búsqueda 
+(no es clave formal del DB)
 */
 async function scanDb(contacto) {
   var docClient = new AWS.DynamoDB.DocumentClient();
@@ -288,7 +289,7 @@ app.post("/api/addCliente", (req, res) => {
     if (Object.keys(resultDb).length != 0) {
       res.status(400).send({ response: "ERROR", message: "Cliente ya existe" });
       return;
-    } else {
+    } else {      // Camino feliz
       var hoy = new Date();
       var dd = String(hoy.getDate()).padStart(2, "0");
       var mm = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -314,6 +315,7 @@ app.post("/api/addCliente", (req, res) => {
         ConditionExpression: "attribute_not_exists(id)",
       };
 
+      // Guarda los datos en la DB
       docClient.put(paramsPut, function (err, data) {
         if (err) {
           res
@@ -330,14 +332,13 @@ app.post("/api/addCliente", (req, res) => {
     }
   });
 });
+
 /*----------
 /api/updateCliente
 Permite actualizar datos del cliente contacto, nombre, estado de activo y registrado
 */
 app.post("/api/updateCliente", (req, res) => {
-  const { id } = req.body;
-  const { nombre } = req.body;
-  const { password } = req.body;
+  const { id, nombre, password } = req.body;
 
   var activo = (req.body.activo + "").toLowerCase() === "true";
   var registrado = (req.body.registrado + "").toLowerCase() === "true";
@@ -442,6 +443,7 @@ app.post("/api/updateCliente", (req, res) => {
     }
   });
 });
+
 /*-------
 /api/resetCliente
 Permite cambiar la password de un cliente
@@ -469,7 +471,7 @@ app.post("/api/resetCliente", async (req, res) => {
   }
 
   try {
-    // 1. Buscar cliente por contacto
+    // Buscar cliente por contacto
     const clientes = await scanDb(contacto);
     if (!clientes || clientes.length === 0) {
       return res
@@ -478,9 +480,9 @@ app.post("/api/resetCliente", async (req, res) => {
     }
 
     const cliente = clientes[0];
-    const id = cliente.id; // <-- acá obtenés el ID real
+    const id = cliente.id; // <-- acá se obtiene el id del cliente
 
-    // 2. Actualizar solo la password
+    // Actualizar solo la password
     const paramsUpdate = {
       TableName: "cliente",
       Key: { id: id },
@@ -493,6 +495,7 @@ app.post("/api/resetCliente", async (req, res) => {
       ReturnValues: "ALL_NEW",
     };
 
+    // Ejecuta y espera que se complete la actualización
     const dataUp = await docClient.update(paramsUpdate).promise();
 
     res.status(200).send({
@@ -506,6 +509,7 @@ app.post("/api/resetCliente", async (req, res) => {
       .send({ response: "ERROR", message: "DB access error: " + err });
   }
 });
+
 /*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
 /*                                                       API REST ticket                                                             *
 /*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*/
@@ -535,6 +539,7 @@ async function scanDbTicket(clienteID) {
     });
   return objectPromise;
 }
+
 /*----------
   listarTicket
   API REST para obtener todos los tickets de un clienteID
@@ -546,7 +551,7 @@ app.post("/api/listarTicket", (req, res) => {
   if (!ID) {
     res
       .status(400)
-      .send({ response: "ERROR", message: "ID cliente  no informada" });
+      .send({ response: "ERROR", message: "ID cliente no informada" });
     return;
   }
 
@@ -608,7 +613,7 @@ API REST para agregar ticket (genera id)
 */
 app.post("/api/addTicket", (req, res) => {
   const { clienteID } = req.body;
-  const estado_solucion = 1;
+  const estado_solucion = 1;      // 1: solución pendiente
   const { solucion } = req.body;
   const { descripcion } = req.body;
 

@@ -24,7 +24,7 @@ formE1.addEventListener("submit", (event) => {
     document.getElementById("resultado1").style.color = "RED";
     document.getElementById("resultado1").style.textAlign = "center";
     document.getElementById("resultado1").textContent =
-      "Debe informar usuario y password para  completar el acceso";
+      "Debe informar usuario y password para completar el acceso";
     return;
   }
 
@@ -211,5 +211,13 @@ formE1.addEventListener("submit", (event) => {
         document.getElementById("resultado4").textContent =
           "Error de login, intente nuevamente";
       }
+    })
+    .catch((err) => {
+    console.error("Error de conexión con el servidor:", err);
+    const mensajeError =
+      "No se pudo conectar con el servidor.";
+    document.getElementById("resultado4").style.color = "RED";
+    document.getElementById("resultado4").style.textAlign = "center";
+    document.getElementById("resultado4").textContent = mensajeError;
     });
 });
